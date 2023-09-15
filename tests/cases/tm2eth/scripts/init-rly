@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+
+set -eu
+
+SCRIPT_DIR=$(cd $(dirname ${BASH_SOURCE:-$0}); pwd)
+source ${SCRIPT_DIR}/util/relayer-util
+
+rm -rf ${RELAYER_CONF} &> /dev/null
+
+sleep 10
+
+${RLY} config init
+${RLY} chains add-dir ${CONF_DIR}/chains/
+
+# setup key for tendermint client
+SEED0=$(jq -r '.mnemonic' < ${FIXTURES_DIR}/tendermint/ibc0/key_seed.json)
+echo "Key $(${RLY} tendermint keys restore ibc0 testkey "$SEED0") imported from ibc0 to relayer..."

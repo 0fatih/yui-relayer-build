@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+
+set -eu
+
+SCRIPT_DIR=$(cd $(dirname ${BASH_SOURCE:-$0}); pwd)
+source ${SCRIPT_DIR}/util/relayer-util
+source $(cd $(dirname "$0"); pwd)/../../../scripts/util
+
+$RLY tendermint keys show $CHAINID_ONE $RLYKEY
+
+# initialize the light client for {{chain_id}}
+retry 5 $RLY tendermint light init $CHAINID_ONE -f
+# retry 5 $RLY tendermint light init $CHAINID_TWO -f
+
+# add a path between chain0 and chain1
+$RLY paths add $CHAINID_ONE $CHAINID_TWO $PATH_NAME --file=${CONF_DIR}/path.json
+
+# handshake
+set -x
+$RLY tx clients $PATH_NAME
+$RLY tx update-clients $PATH_NAME
+$RLY tx connection $PATH_NAME
+$RLY tx channel $PATH_NAME
+set +x

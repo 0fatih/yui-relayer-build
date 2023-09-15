@@ -1,0 +1,71 @@
+#!/bin/bash
+
+set -eux
+
+SCRIPT_DIR=$(cd $(dirname $0); pwd)
+RLY_BINARY=${SCRIPT_DIR}/../../../../build/yrly
+RLY="${RLY_BINARY} --debug"
+
+# XXX set proper value
+TX_INTERVAL=3
+
+TM_ADDRESS0=$(${RLY} tendermint keys show ibc0 testkey)
+
+ICS20_CLI="ethereum-ics20-cli"
+TMP_DIR=/tmp
+if ! which ${ICS20_CLI} > /dev/null 2>&1; then
+  if [ ! -d "${TMP_DIR}" ]; then
+    mkdir -p ${TMP_DIR}
+  fi
+  git clone https://github.com/datachainlab/ethereum-ics20-cli.git ${TMP_DIR}/ethereum-ics20-cli
+  cd ${TMP_DIR}/ethereum-ics20-cli
+  git checkout v0.0.4
+  go install
+  export PATH=$PATH:$(go env GOPATH)/bin
+fi
+
+SIMPLE_TOKEN_ADDRESS="0xff77d90d6aa12db33d3ba50a34fb25401f6e4c4f"
+ICS20_TRANSFER_BANK_ADDRESS="0xaE1C9125BbcF63bf51294C4D15CBD472782E330D"
+ICS20_BANK_ADDRESS="0x2F5703804E29F4252FA9405B8D357220d11b3bd9"
+
+DENOM=$(echo "$SIMPLE_TOKEN_ADDRESS" | tr '[:upper:]' '[:lower:]')
+
+CHAIN_B_JSON=${CONF_DIR}/chains/ibc-1.json
+PATH_JSON=${CONF_DIR}/path.json
+
+CHAIN_B_ID=$(jq -r '.chain."eth_chain_id"' ${CHAIN_B_JSON})
+
+MNEMONIC_B=$(jq -r '.chain."hdw_mnemonic"' ${CHAIN_B_JSON})
+
+RPC_ADDRESS_B=$(jq -r '.chain."rpc_addr"' ${CHAIN_B_JSON})
+
+PORT_ID=$(jq -r '.dst."port-id"' ${PATH_JSON})
+CHANNEL_ID=$(jq -r '.dst."channel-id"' ${PATH_JSON})
+
+WALLET_ADDRESS_B=$(${ICS20_CLI} wallet address --mnemonic="${MNEMONIC_B}" --wallet-index=2)
+
+show_balance() {
+  state=$1
+  chain=$2
+  user_wallet=$3
+  denom=$4
+  user_name=$5
+  balance=$(${ICS20_CLI} ics20 balance --rpc-address=${chain} --ics20-bank-address=${ICS20_BANK_ADDRESS} --wallet-address=${user_wallet} --denom=${denom})
+  echo "${state} ${chain} balance of ${user_name}: $balance"
+}
+
+
+echo "!!! ibc0 -> ibc1 !!!"
+
+echo "Before ibc0 balance: $(${RLY} query balance ibc0 ${TM_ADDRESS0})"
+show_balance Before ${RPC_ADDRESS_B} ${WALLET_ADDRESS_B} ${DENOM}
+
+${RLY} tx transfer ibc01 ibc0 ibc1 100samoleans ${WALLET_ADDRESS_B}
+sleep ${TX_INTERVAL}
+${RLY} tx relay ibc01
+sleep ${TX_INTERVAL}
+${RLY} tx acks ibc01
+sleep ${TX_INTERVAL}
+
+echo "After ibc0 balance: $(${RLY} query balance ibc0 ${TM_ADDRESS0})"
+echo "After ibc1 balance: $(${RLY} query balance ibc1 ${TM_ADDRESS1})"
