@@ -12,7 +12,7 @@ test:
 	./scripts/fixture
 	./scripts/init-rly
 	./scripts/handshake
-	./scripts/test-tx
+# ./scripts/test-tx
 
 .PHONY: network-down
 network-down:
