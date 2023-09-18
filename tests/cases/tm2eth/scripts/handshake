@@ -19,6 +19,6 @@ $RLY paths add $CHAINID_ONE $CHAINID_TWO $PATH_NAME --file=${CONF_DIR}/path.json
 set -x
 $RLY tx clients $PATH_NAME
 $RLY tx update-clients $PATH_NAME
-# $RLY tx connection $PATH_NAME
-# $RLY tx channel $PATH_NAME
+$RLY tx connection $PATH_NAME
+$RLY tx channel $PATH_NAME
 set +x

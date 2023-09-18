@@ -11,7 +11,7 @@
     "initial_recv_checkpoint": 1
   },
   "prover": {
-    "@type": "/relayer.provers.mock.config.ProverConfig",
-    "finality_delay": 3
+    "@type": "/relayer.chains.tendermint.config.ProverConfig",
+    "trusting_period": "336h"
   }
 }

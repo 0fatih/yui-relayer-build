@@ -205,6 +205,8 @@ cosmossdk.io/tools/rosetta v0.2.1/go.mod h1:Pqdc1FdvkNV3LcNIkYWt2RQY6IP1ge6YWZk8
 dmitri.shuralyov.com/gpu/mtl v0.0.0-20190408044501-666a987793e9/go.mod h1:H6x//7gZCb22OMCxBHrMx7a5I7Hp++hsVxbQ4BYO7hU=
 filippo.io/edwards25519 v1.0.0 h1:0wAIcmJUqRdI8IJ/3eGi5/HwXZWPujYXXlkrQogz0Ek=
 filippo.io/edwards25519 v1.0.0/go.mod h1:N1IkdkCkiLB6tki+MYJoSx2JTY9NUlxZE7eHn5EwJns=
+github.com/0fatih/ethereum-ibc-relay-chain v0.2.5 h1:4C6UKmWcJUIdPGSnyQu5//5kuU5b3BP+OBV52UyzIdA=
+github.com/0fatih/ethereum-ibc-relay-chain v0.2.5/go.mod h1:vq7SVqbQJPBaK2y02bUm5Bh7HM86mrlhONaTV2OPFTg=
 github.com/99designs/go-keychain v0.0.0-20191008050251-8e49817e8af4 h1:/vQbFIOMbk2FiG/kXiLl8BRyzTWDw7gX/Hz7Dd5eDMs=
 github.com/99designs/go-keychain v0.0.0-20191008050251-8e49817e8af4/go.mod h1:hN7oaIRCjzsZ2dE+yG5k+rsdt3qcwykqK6HVGcKwsw4=
 github.com/AndreasBriese/bbloom v0.0.0-20190306092124-e2d15f34fcf9/go.mod h1:bOvUY6CB00SOBii9/FifXqc0awNKxLFCL/+pkDPuyl8=
@@ -399,8 +401,6 @@ github.com/cucumber/common/gherkin/go/v22 v22.0.0 h1:4K8NqptbvdOrjL9DEea6HFjSpbd
 github.com/cucumber/common/messages/go/v17 v17.1.1 h1:RNqopvIFyLWnKv0LfATh34SWBhXeoFTJnSrgm9cT/Ts=
 github.com/danieljoos/wincred v1.1.2 h1:QLdCxFs1/Yl4zduvBdcHB8goaYk9RARS2SgLLRuAyr0=
 github.com/danieljoos/wincred v1.1.2/go.mod h1:GijpziifJoIBfYh+S7BbkdUTU4LfM+QnGqR5Vl2tAx0=
-github.com/datachainlab/ethereum-ibc-relay-chain v0.2.3 h1:cib07hGm41YyssO3oz38BiHTX6K5iquo0INZ9yBS9hU=
-github.com/datachainlab/ethereum-ibc-relay-chain v0.2.3/go.mod h1:Rbn+hsaEaYz7154ckk3blm5df9T0mMccWK26id6JcJs=
 github.com/datachainlab/ibc-mock-client v0.3.2 h1:SxBkaiuHWQ+1L085m2L35Fku3am7I6YL6B7dwurtDOM=
 github.com/datachainlab/ibc-mock-client v0.3.2/go.mod h1:FfqyF+VJKp8jlIG21lTNJJIp8RCaxSrx6vjhNkfwgBM=
 github.com/davecgh/go-spew v0.0.0-20171005155431-ecdeabc65495/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
